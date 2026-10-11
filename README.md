@@ -15,12 +15,23 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 Open http://127.0.0.1:8000/login, create an account → redirects to `/overview`.
 
-## Deploy (Nimbus / Render / Railway)
-- Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-- `PORT` is read from env (defaults to 8000). Single service: API + frontend on one URL.
-- Set `GEMINI_API_KEY` in the dashboard env for live AI; without it the app uses
-  regex/template fallbacks so every endpoint still returns 200.
-- SQLite file `sano.db` auto-creates (empty tables) on first boot. `uploads/` holds report images.
+## Deploy (live app)
+Pick one:
+
+**Render (free, ~5 min):** dashboard.render.com → New → Blueprint → connect
+`LakshyaDuttBansal/SANO.AI` (uses `render.yaml` + `Dockerfile` in repo).
+Add env `GEMINI_API_KEY` (optional — app works without it via fallbacks).
+Open the `https://sano-ai.onrender.com` URL → `/login` → Create Account.
+
+**Nimbus (hackathon):** upload/connect the repo, start command
+`uvicorn main:app --host 0.0.0.0 --port $PORT`, set `GEMINI_API_KEY` in env.
+
+**Any Docker host:** `docker build -t sano . && docker run -p 8000:8000 -e GEMINI_API_KEY=... sano`
+
+Notes: `Dockerfile` (python:3.11-slim), `runtime.txt`, `render.yaml`,
+`GET /api/health` healthcheck are in the repo. SQLite + `uploads/` live on the
+container disk — free tiers may reset them on redeploy; for the hackathon demo
+just re-add data. Never commit `.env` (gitignored).
 
 ## Pages
 - `/login` — sign in / create account

@@ -1,0 +1,7 @@
+__pycache__
+*.pyc
+.env
+sano.db
+health.db
+uploads/
+.git/
