@@ -6,7 +6,7 @@ import datetime
 from fastapi import FastAPI, UploadFile, File, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from dotenv import load_dotenv
 from db import get_db, init_db
 from ai import extract_medical, summarize_medical, chat_reply, classify_status
@@ -274,7 +274,19 @@ def appointments_page():
 
 @app.get("/")
 def index():
-    p = os.path.join(BASE_DIR, "static", "index.html")
+    # Login is the landing page; medications moved to /medications.
+    p = os.path.join(BASE_DIR, "static", "login.html")
+    return FileResponse(p) if os.path.exists(p) else {"project": "SANO"}
+
+
+@app.get("/login")
+def login_page():
+    return RedirectResponse(url="/", status_code=307)
+
+
+@app.get("/medications")
+def medications_page():
+    p = os.path.join(BASE_DIR, "static", "medications.html")
     return FileResponse(p) if os.path.exists(p) else {"project": "SANO"}
 
 
@@ -326,12 +338,6 @@ def wellness_add(b: WellnessIn):
     conn.commit()
     conn.close()
     return {"ok": True, "date": date}
-
-
-@app.get("/login")
-def login_page():
-    p = os.path.join(BASE_DIR, "static", "login.html")
-    return FileResponse(p) if os.path.exists(p) else {"project": "SANO"}
 
 
 @app.get("/profile")

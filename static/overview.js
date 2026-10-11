@@ -66,7 +66,7 @@ $("#globalSearch").addEventListener("keydown", (event) => {
   if (query.includes("copilot") || query.includes("ask") || query.includes("question")) {
     window.location.href = "/copilot";
   } else if (query.includes("medication") || query.includes("medicine")) {
-    window.location.href = "/";
+    window.location.href = "/medications";
   } else if (query.includes("record") || query.includes("report")) {
     window.location.href = "/records";
   } else if (query.includes("wellness") || query.includes("sleep") || query.includes("step")) {
@@ -80,10 +80,10 @@ $("#globalSearch").addEventListener("keydown", (event) => {
 $$(".stat-card").forEach((card) => {
   card.addEventListener("click", () => {
     const target = card.dataset.target;
-    if (target === "medications") window.location.href = "/";
+    if (target === "medications") window.location.href = "/medications";
     else if (target === "records") window.location.href = "/records";
     else if (target === "wellness") $(".wellness-panel").scrollIntoView({ behavior: "smooth" });
-    else if (target === "appointments") window.location.href = "/";
+    else if (target === "appointments") window.location.href = "/appointments";
     else showToast("Section coming soon.");
   });
 });

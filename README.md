@@ -13,7 +13,7 @@ pip install -r requirements.txt
 cp .env.example .env   # optional: add GEMINI_API_KEY for full AI answers
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
-Open http://127.0.0.1:8000/login, create an account → redirects to `/overview`.
+Open http://127.0.0.1:8000/ (login), create an account → redirects to `/overview`.
 
 ## Deploy (live app)
 Pick one:
@@ -21,7 +21,7 @@ Pick one:
 **Render (free, ~5 min):** dashboard.render.com → New → Blueprint → connect
 `LakshyaDuttBansal/SANO.AI` (uses `render.yaml` + `Dockerfile` in repo).
 Add env `GEMINI_API_KEY` (optional — app works without it via fallbacks).
-Open the `https://sano-ai.onrender.com` URL → `/login` → Create Account.
+Open the `https://sano-ai.onrender.com` URL → Create Account on the landing page.
 
 **Nimbus (hackathon):** upload/connect the repo, start command
 `uvicorn main:app --host 0.0.0.0 --port $PORT`, set `GEMINI_API_KEY` in env.
@@ -34,10 +34,10 @@ container disk — free tiers may reset them on redeploy; for the hackathon demo
 just re-add data. Never commit `.env` (gitignored).
 
 ## Pages
-- `/login` — sign in / create account
+- `/` — login landing page (sign in / create account, `/login` redirects here)
 - `/overview` — stats, insights, wellness chart, checklist
 - `/records` — upload + filter/search medical records, detail view
-- `/` — medications (add/delete, adherence)
+- `/medications` — medications (add/delete, adherence)
 - `/wellness` — metrics, goals, activity log (persists via `POST /api/wellness`)
 - `/appointments` — book/complete/cancel appointments
 - `/copilot` — AI chat grounded in your records + report attach
@@ -55,7 +55,7 @@ just re-add data. Never commit `.env` (gitignored).
 - `GET /api/profile?email=`, `PUT /api/profile`
 
 ## Evaluator test access
-- No seeded accounts or data: open `/login`, Create Account, then use the app.
+- No seeded accounts or data: open `/`, Create Account, then use the app.
   Everything on screen comes from your own input (uploads, manual records,
   medications, wellness logs, appointments).
 - Sample files: `sample_lab.txt`, `sample_prescription.txt` (reference content for
