@@ -38,6 +38,12 @@ def init_db():
         email TEXT PRIMARY KEY, name TEXT DEFAULT '', phone TEXT DEFAULT '',
         gender TEXT DEFAULT '', dob TEXT DEFAULT '', blood_group TEXT DEFAULT '',
         address TEXT DEFAULT '')""")
+    # Body measurements live with personal details (migration-safe for existing DBs)
+    for col in ("height_cm REAL", "weight_kg REAL"):
+        try:
+            conn.execute(f"ALTER TABLE profiles ADD COLUMN {col}")
+        except Exception:
+            pass
     # No seed/demo rows: tables start empty and fill only from user input
     # (signup, uploads, manual records, medications, wellness logs, appointments).
     conn.commit()

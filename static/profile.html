@@ -105,11 +105,24 @@
                 <div class="right-column">
                     <div class="card">
                         <h2>Body Measurements</h2>
-                        <p class="muted">From your latest wellness data.</p>
-                        <div class="measurement"><span>Height</span><strong id="profileHeight">–</strong></div>
-                        <div class="measurement"><span>Weight</span><strong id="profileWeight">–</strong></div>
-                        <div class="measurement"><span>BMI estimate</span><strong id="profileBMI">–</strong></div>
-                        <a class="secondary-button spaced" href="/wellness" style="text-decoration:none;text-align:center">Edit Measurements →</a>
+                        <p class="muted">Saved to your profile, like personal details.</p>
+                        <form id="measurementsForm">
+                            <div class="field">
+                                <label for="heightInput">Height (cm)</label>
+                                <input id="heightInput" type="number" min="1" max="300" step="0.1" placeholder="e.g. 175">
+                            </div>
+                            <div class="field" style="margin-top:12px">
+                                <label for="weightInput">Weight (kg)</label>
+                                <input id="weightInput" type="number" min="1" max="500" step="0.1" placeholder="e.g. 70">
+                            </div>
+                            <div class="measurement"><span>Height</span><strong id="profileHeight">–</strong></div>
+                            <div class="measurement"><span>Weight</span><strong id="profileWeight">–</strong></div>
+                            <div class="measurement"><span>BMI estimate</span><strong id="profileBMI">–</strong></div>
+                            <div class="form-actions">
+                                <button type="submit" class="primary-button">Save Measurements →</button>
+                            </div>
+                        </form>
+                        <p class="muted">BMI is a screening measure, not a diagnosis.</p>
                     </div>
                     <div class="card">
                         <h2>Preferences</h2>

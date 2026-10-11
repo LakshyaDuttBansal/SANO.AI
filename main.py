@@ -352,7 +352,8 @@ def profile_get(email: str = ""):
     # Fall back to signup name so the form is never empty for known users
     if u:
         return {"email": u["email"], "name": u["name"], "phone": "", "gender": "",
-                "dob": "", "blood_group": "", "address": ""}
+                "dob": "", "blood_group": "", "address": "",
+                "height_cm": None, "weight_kg": None}
     raise HTTPException(status_code=404, detail="Profile not found")
 
 
@@ -361,9 +362,17 @@ def profile_put(b: ProfileIn):
     email = b.email.strip().lower()
     if not email or not b.name.strip():
         raise HTTPException(status_code=400, detail="Name and email are required")
+    for field, value, lo, hi in (("height_cm", b.height_cm, 1, 300),
+                                 ("weight_kg", b.weight_kg, 1, 500)):
+        if value is not None and not (lo <= value <= hi):
+            raise HTTPException(status_code=400, detail=f"Invalid {field}")
     conn = get_db()
-    conn.execute("INSERT OR REPLACE INTO profiles VALUES(?,?,?,?,?,?,?)",
-                 (email, b.name.strip(), b.phone, b.gender, b.dob, b.blood_group, b.address))
+    cur = conn.execute("SELECT * FROM profiles WHERE email=?", (email,)).fetchone()
+    prev = dict(cur) if cur else {}
+    conn.execute("INSERT OR REPLACE INTO profiles VALUES(?,?,?,?,?,?,?,?,?)",
+                 (email, b.name.strip(), b.phone, b.gender, b.dob, b.blood_group,
+                  b.address, b.height_cm if b.height_cm is not None else prev.get("height_cm"),
+                  b.weight_kg if b.weight_kg is not None else prev.get("weight_kg")))
     if conn.execute("SELECT 1 FROM users WHERE email=?", (email,)).fetchone():
         conn.execute("UPDATE users SET name=? WHERE email=?", (b.name.strip(), email))
     conn.commit()

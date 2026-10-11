@@ -75,3 +75,5 @@ class ProfileIn(BaseModel):
     dob: str = ""
     blood_group: str = ""
     address: str = ""
+    height_cm: Optional[float] = None
+    weight_kg: Optional[float] = None

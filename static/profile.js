@@ -31,6 +31,7 @@ async function loadProfile() {
     const r = await fetch(`/api/profile?email=${encodeURIComponent(email)}`);
     if (!r.ok) return;
     const p = await r.json();
+    cachedProfile = { ...p };
     for (const [id, key] of [["phone", "phone"], ["gender", "gender"], ["dob", "dob"],
                              ["bloodGroup", "blood_group"], ["address", "address"]]) {
       if (p[key]) document.getElementById(id).value = p[key];
@@ -38,21 +39,70 @@ async function loadProfile() {
   } catch (e) { console.warn("profile load failed", e); }
 }
 
+let cachedProfile = {};
+
+function bmi(hCm, wKg) {
+  if (!hCm || !wKg || hCm <= 0 || wKg <= 0) return null;
+  return wKg / ((hCm / 100) ** 2);
+}
+
+function paintMeasurements(hCm, wKg) {
+  document.getElementById("profileHeight").textContent = hCm ? `${hCm} cm` : "–";
+  document.getElementById("profileWeight").textContent = wKg ? `${wKg} kg` : "–";
+  const b = bmi(hCm, wKg);
+  document.getElementById("profileBMI").textContent = b === null ? "–" : b.toFixed(1);
+}
+
 async function loadMeasurements() {
+  // Body measurements persist on the profile, same as personal details.
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  if (!email) return;
   try {
-    const r = await fetch("/api/wellness?range=7d");
+    const r = await fetch(`/api/profile?email=${encodeURIComponent(email)}`);
     if (!r.ok) return;
-    const w = await r.json();
-    const rows = w.series || [];
-    const last = rows[rows.length - 1] || {};
-    // Height/weight are logged via wellness page goals? show latest water/steps-based note.
-    document.getElementById("profileHeight").textContent = "–";
-    document.getElementById("profileWeight").textContent =
-      last.water_l ? `${last.water_l} L logged` : "–";
-    document.getElementById("profileBMI").textContent =
-      last.sleep_hrs ? `${last.sleep_hrs} hrs sleep` : "–";
+    const p = await r.json();
+    cachedProfile = { ...cachedProfile, ...p };
+    if (p.height_cm) document.getElementById("heightInput").value = p.height_cm;
+    if (p.weight_kg) document.getElementById("weightInput").value = p.weight_kg;
+    paintMeasurements(p.height_cm, p.weight_kg);
   } catch (e) { console.warn("measurements failed", e); }
 }
+
+document.getElementById("measurementsForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const h = parseFloat(document.getElementById("heightInput").value);
+  const w = parseFloat(document.getElementById("weightInput").value);
+  if ((document.getElementById("heightInput").value && !(h > 0 && h <= 300)) ||
+      (document.getElementById("weightInput").value && !(w > 0 && w <= 500))) {
+    toast("Enter a valid height (1-300 cm) and weight (1-500 kg).");
+    return;
+  }
+  const body = {
+    email: document.getElementById("email").value.trim(),
+    name: document.getElementById("fullName").value.trim() || cachedProfile.name || "",
+    phone: cachedProfile.phone || "", gender: cachedProfile.gender || "",
+    dob: cachedProfile.dob || "", blood_group: cachedProfile.blood_group || "",
+    address: cachedProfile.address || "",
+    height_cm: document.getElementById("heightInput").value ? h : null,
+    weight_kg: document.getElementById("weightInput").value ? w : null,
+  };
+  if (!body.name) {
+    toast("Save your name in Personal Information first.");
+    return;
+  }
+  try {
+    const r = await fetch("/api/profile", {
+      method: "PUT", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error("Save failed");
+    cachedProfile = { ...cachedProfile, height_cm: body.height_cm, weight_kg: body.weight_kg };
+    paintMeasurements(body.height_cm, body.weight_kg);
+    toast("Measurements saved to your profile.");
+  } catch (err) {
+    toast("Could not save measurements.");
+  }
+});
 
 function loadPreferences() {
   try {
