@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Records | Sano AI</title>
+  <link rel="stylesheet" href="/static/records.css">
+  <script src="/static/records.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <a href="/overview" class="brand">
+      <div class="brand-logo">♥️</div>
+      <div><h2>Sano AI</h2><p>Your Personal Health Copilot</p></div>
+    </a>
+    <nav class="navigation">
+      <a href="/overview" class="nav-item"><span>⌂</span> Overview</a>
+      <a href="/records" class="nav-item active"><span>▤</span> Medical Records</a>
+      <a href="/" class="nav-item"><span>♧</span> Medications</a>
+      <a href="/wellness" class="nav-item"><span>♡</span> Wellness</a>
+      <a href="/appointments" class="nav-item"><span>▦</span> Appointments</a>
+      <a href="/copilot" class="nav-item"><span>✣</span> AI Copilot</a>
+      <a href="/profile" class="nav-item"><span>♙</span> Profile</a>
+    </nav>
+    <a href="/copilot" class="help-card">
+      <span class="help-icon">?</span>
+      <span><strong>Need help?</strong><small>Talk to our AI assistant</small></span>
+    </a>
+  </aside>
+  <main class="main-content">
+    <header class="topbar">
+      <button class="menu-button" id="menuButton" type="button" aria-label="Toggle navigation">☰</button>
+      <label class="global-search">
+        <span>⌕</span>
+        <input id="globalSearch" type="search" placeholder="Search your records, ask a question, or find insights...">
+      </label>
+      <button class="notification-button" type="button" aria-label="Notifications">♧</button>
+      <div class="avatar">U</div>
+    </header>
+    <section class="page-heading">
+      <div><h1>Medical Records</h1><p>Upload, organize and understand your health documents.</p></div>
+      <button class="primary-button" id="uploadButton" type="button"><span>＋</span> Upload Report</button>
+    </section>
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-icon green">▤</div><div><p>Total Records</p><h2 id="totalRecords">–</h2><small>Your health library</small></div></article>
+      <article class="stat-card"><div class="stat-icon blue">♧</div><div><p>Lab Reports</p><h2 id="labCount">–</h2><small>Laboratory documents</small></div></article>
+      <article class="stat-card"><div class="stat-icon purple">▧</div><div><p>Prescriptions</p><h2 id="prescriptionCount">–</h2><small>Prescription records</small></div></article>
+      <article class="stat-card"><div class="stat-icon orange">◷</div><div><p>Needs Attention</p><h2 id="attentionCount">–</h2><small>Review with your clinician</small></div></article>
+    </section>
+    <section class="records-panel">
+      <div class="panel-heading">
+        <div><h2>Your Health Documents</h2><p id="resultsSummary">Loading…</p></div>
+        <button class="secondary-button" id="refreshButton" type="button">↻ Refresh</button>
+      </div>
+      <nav class="filter-tabs" id="filterTabs" aria-label="Filter records by category">
+        <button class="filter-tab active" data-category="All Records" type="button">All Records</button>
+        <button class="filter-tab" data-category="Lab Reports" type="button">Lab Reports</button>
+        <button class="filter-tab" data-category="Prescriptions" type="button">Prescriptions</button>
+        <button class="filter-tab" data-category="Imaging" type="button">Imaging</button>
+        <button class="filter-tab" data-category="Doctor Notes" type="button">Doctor Notes</button>
+        <button class="filter-tab" data-category="Other" type="button">Other</button>
+      </nav>
+      <div class="toolbar">
+        <label class="record-search"><span>⌕</span><input id="recordSearch" type="search" placeholder="Search records..."></label>
+        <select id="statusFilter" aria-label="Filter by status">
+          <option value="all">All Types</option>
+          <option value="Normal">Normal</option>
+          <option value="Needs Attention">Needs Attention</option>
+          <option value="Active">Active</option>
+          <option value="Low">Low</option>
+        </select>
+        <select id="sortOrder" aria-label="Sort records">
+          <option value="latest">Latest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="az">Title A–Z</option>
+        </select>
+      </div>
+      <div id="loadingState" class="state-message">Loading medical records...</div>
+      <div id="errorState" class="state-message error-message" hidden>
+        <p id="errorMessage"></p>
+        <button class="secondary-button" id="retryButton" type="button">Try Again</button>
+      </div>
+      <div id="recordsContainer" class="records-list"></div>
+      <div id="emptyState" class="empty-state" hidden>
+        <div class="empty-icon">▤</div>
+        <h3>No records found</h3>
+        <p>Add a record or try another category.</p>
+        <button class="primary-button" id="emptyAddButton" type="button">＋ Add Record</button>
+      </div>
+      <footer class="table-footer"><span id="footerCount">–</span><span>Personal health library</span></footer>
+    </section>
+    <div class="privacy-banner">
+      <span class="privacy-icon">♧</span>
+      <div><h3>Your health information matters</h3><p>Keep your medical records organized and consult your healthcare professional for medical advice.</p></div>
+    </div>
+  </main>
+</div>
+<div class="overlay" id="overlay" hidden></div>
+<section class="modal" id="recordModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-heading">
+    <div><h2 id="modalTitle">Upload Report</h2><p>Add a medical record to your health library.</p></div>
+    <button class="close-button" id="closeModal" type="button" aria-label="Close">×</button>
+  </div>
+  <p class="form-notice">Attach a PDF/image for AI extraction, or save the details manually.</p>
+  <p id="formMessage" class="form-message" role="status" hidden></p>
+  <form id="recordForm">
+    <label class="form-field">Record Title
+      <input id="recordTitle" type="text" maxlength="200" placeholder="e.g. Complete Blood Count" required>
+    </label>
+    <label class="form-field">Category
+      <select id="recordCategory" required>
+        <option value="Lab Reports">Lab Reports</option>
+        <option value="Prescriptions">Prescriptions</option>
+        <option value="Imaging">Imaging</option>
+        <option value="Doctor Notes">Doctor Notes</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+    <label class="form-field">Record Date
+      <input id="recordDate" type="date" required>
+    </label>
+    <label class="form-field">Status
+      <select id="recordStatus" required>
+        <option value="Normal">Normal</option>
+        <option value="Needs Attention">Needs Attention</option>
+        <option value="Active">Active</option>
+        <option value="Low">Low</option>
+      </select>
+      <small>Enter the status already documented by your healthcare professional.</small>
+    </label>
+    <label class="form-field">Report file (PDF/JPG/PNG, optional — sent to AI extraction)
+      <input id="recordFile" type="file" accept=".pdf,.jpg,.jpeg,.png">
+    </label>
+    <div class="modal-actions">
+      <button class="secondary-button" id="cancelModal" type="button">Cancel</button>
+      <button class="primary-button" id="saveRecordButton" type="submit">Save Record</button>
+    </div>
+  </form>
+</section>
+<section class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
+  <div class="modal-heading">
+    <div><h2 id="detailTitle">Record Details</h2><p id="detailSubtitle"></p></div>
+    <button class="close-button" id="closeDetail" type="button" aria-label="Close">×</button>
+  </div>
+  <div id="detailContent" class="detail-content"></div>
+  <p class="detail-note">These are stored record details, not an independent medical assessment.</p>
+  <div class="modal-actions"><button class="primary-button" id="doneDetail" type="button">Done</button></div>
+</section>
+</body>
+</html>

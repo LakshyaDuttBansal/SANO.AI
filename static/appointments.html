@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | Sano AI</title>
+    <link rel="stylesheet" href="/static/appointments.css">
+    <script src="/static/appointments.js" defer></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <a href="/overview" class="brand">
+                <span class="brand-icon">✚</span>
+                <span>Sano<span class="brand-ai"> AI</span></span>
+            </a>
+            <div class="nav-label">MENU</div>
+            <nav class="navigation">
+                <a href="/overview" class="nav-link"><span>▦</span> Overview</a>
+                <a href="/records" class="nav-link"><span>▤</span> Medical Records</a>
+                <a href="/" class="nav-link"><span>▣</span> Medications</a>
+                <a href="/wellness" class="nav-link"><span>♡</span> Wellness & Activity</a>
+                <a href="/appointments" class="nav-link active"><span>▦</span> Appointments</a>
+                <a href="/copilot" class="nav-link"><span>✧</span> AI Copilot</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="help-card">
+                    <div class="help-icon">?</div>
+                    <strong>Need help?</strong>
+                    <p>Manage your healthcare journey with Sano AI.</p>
+                </div>
+                <div class="sidebar-footer">Your health, simplified.</div>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-button" id="menuButton" aria-label="Toggle navigation">☰</button>
+                <div class="breadcrumb">Workspace <span>/</span> Appointments</div>
+                <div class="topbar-right">
+                    <span class="secure-label"><span class="secure-dot"></span> Personal Health Space</span>
+                    <button class="avatar" id="profileButton" aria-label="Profile">U</button>
+                    <div class="profile-menu" id="profileMenu" hidden>
+                        <strong>My Profile</strong>
+                        <span>Personal health dashboard</span>
+                        <a href="/profile" style="color:var(--green-dark);font-size:11px;font-weight:700">View profile →</a>
+                    </div>
+                </div>
+            </header>
+            <section class="page-content">
+                <div class="page-heading">
+                    <div>
+                        <div class="eyebrow">YOUR HEALTH, ON SCHEDULE</div>
+                        <h1>Appointments</h1>
+                        <p class="subtitle">Keep your healthcare visits organised in one place.</p>
+                    </div>
+                    <button class="primary-button" id="openModalButton">＋ Book Appointment</button>
+                </div>
+                <section class="welcome-banner">
+                    <div>
+                        <span class="banner-tag">STAY ON TRACK</span>
+                        <h2>Your health deserves time.</h2>
+                        <p>Plan check-ups, organise consultations, and keep track of your visits.</p>
+                    </div>
+                    <div class="banner-art" aria-hidden="true">
+                        <div class="calendar-illustration">
+                            <div class="calendar-top"></div>
+                            <span>♡</span>
+                            <strong>+</strong>
+                        </div>
+                    </div>
+                </section>
+                <section class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-icon green">▦</div>
+                        <div class="stat-label">Total Appointments</div>
+                        <div class="stat-value" id="totalCount">–</div>
+                        <div class="stat-note">All scheduled visits</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon blue">◷</div>
+                        <div class="stat-label">Upcoming</div>
+                        <div class="stat-value" id="upcomingCount">–</div>
+                        <div class="stat-note">Visits ahead</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-icon purple">✓</div>
+                        <div class="stat-label">Completed</div>
+                        <div class="stat-value" id="completedCount">–</div>
+                        <div class="stat-note">Visits marked completed</div>
+                    </article>
+                </section>
+                <section class="appointments-section">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Your appointments</h2>
+                            <p>View and manage your scheduled healthcare visits.</p>
+                        </div>
+                        <button class="text-button" id="clearSearchButton">Clear filters</button>
+                    </div>
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <span>⌕</span>
+                            <input type="search" id="searchInput" placeholder="Search doctor, specialty or location">
+                        </div>
+                        <select id="statusFilter" aria-label="Filter by status">
+                            <option value="all">All statuses</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <select id="sortFilter" aria-label="Sort appointments">
+                            <option value="soonest">Soonest first</option>
+                            <option value="latest">Latest first</option>
+                        </select>
+                    </div>
+                    <div class="appointment-list" id="appointmentList"></div>
+                    <div class="empty-state" id="emptyState" hidden>
+                        <div class="empty-icon">▦</div>
+                        <h3>No appointments found</h3>
+                        <p>Try changing your filters or book a new appointment.</p>
+                        <button class="primary-button" id="emptyBookButton">＋ Book Appointment</button>
+                    </div>
+                </section>
+                <p class="privacy-note">🔒 Your appointments are saved to your personal health space.</p>
+            </section>
+        </main>
+    </div>
+    <div class="modal-overlay" id="appointmentModal" hidden>
+        <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-header">
+                <div>
+                    <div class="eyebrow">PLAN YOUR NEXT VISIT</div>
+                    <h2 id="modalTitle">Book an appointment</h2>
+                    <p>Enter the details of your healthcare visit.</p>
+                </div>
+                <button class="close-button" id="closeModalButton" aria-label="Close">×</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-grid">
+                    <label class="form-field full-width">Doctor's name
+                        <input type="text" id="doctorName" placeholder="e.g. Dr. Sharma" required maxlength="80">
+                    </label>
+                    <label class="form-field">Specialty
+                        <select id="specialty" required>
+                            <option value="">Select specialty</option>
+                            <option>General Physician</option>
+                            <option>Cardiology</option>
+                            <option>Dermatology</option>
+                            <option>Dental</option>
+                            <option>Neurology</option>
+                            <option>Orthopedics</option>
+                            <option>Pediatrics</option>
+                            <option>Ophthalmology</option>
+                            <option>Other</option>
+                        </select>
+                    </label>
+                    <label class="form-field">Appointment type
+                        <select id="appointmentType" required>
+                            <option value="In-person">In-person</option>
+                            <option value="Video consultation">Video consultation</option>
+                            <option value="Phone consultation">Phone consultation</option>
+                        </select>
+                    </label>
+                    <label class="form-field">Date
+                        <input type="date" id="appointmentDate" required>
+                    </label>
+                    <label class="form-field">Time
+                        <input type="time" id="appointmentTime" required>
+                    </label>
+                    <label class="form-field full-width">Clinic or meeting details
+                        <input type="text" id="location" placeholder="Clinic name, address or video call details" maxlength="160">
+                    </label>
+                    <label class="form-field full-width">Notes (optional)
+                        <textarea id="appointmentNotes" rows="3" placeholder="Reason for visit or questions to ask..." maxlength="500"></textarea>
+                    </label>
+                </div>
+                <p class="form-error" id="formError" role="alert"></p>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-button" id="cancelModalButton">Cancel</button>
+                    <button type="submit" class="primary-button">Save Appointment</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

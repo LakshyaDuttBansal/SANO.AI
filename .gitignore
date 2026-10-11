@@ -1,0 +1,5 @@
+uploads/
+sano.db
+health.db
+.env
+__pycache__/

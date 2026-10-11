@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Sano AI</title>
+    <link rel="stylesheet" href="/static/profile.css">
+    <script src="/static/profile.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">♥</div>
+            <div><h2>Sano AI</h2><small>Your Personal Health Copilot</small></div>
+        </div>
+        <nav class="navigation">
+            <a class="nav-link" href="/overview">⌂ Overview</a>
+            <a class="nav-link" href="/records">▤ Medical Records</a>
+            <a class="nav-link" href="/">♙ Medications</a>
+            <a class="nav-link" href="/wellness">♡ Wellness</a>
+            <a class="nav-link" href="/appointments">▦ Appointments</a>
+            <a class="nav-link" href="/copilot">✧ AI Copilot</a>
+            <a class="nav-link active" href="/profile">♙ My Profile</a>
+        </nav>
+        <div class="sidebar-help">
+            <strong>ⓘ Need help?</strong>
+            <p>Manage your personal health workspace.</p>
+        </div>
+    </aside>
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">YOUR PERSONAL HEALTH SPACE</p>
+                <h1>My Profile</h1>
+                <p class="subtitle">Your profile details and preferences.</p>
+            </div>
+            <button class="theme-button" id="themeToggle" aria-label="Toggle theme">☾</button>
+            <button class="secondary-button" id="logoutButton" type="button">Log out</button>
+        </header>
+        <section class="page active" id="profile">
+            <div class="profile-banner">
+                <div class="avatar" id="avatarPreview">–</div>
+                <div class="profile-heading">
+                    <span class="member-tag">✦ SANO MEMBER</span>
+                    <h2 id="displayName">Loading…</h2>
+                    <p id="displayEmail"></p>
+                    <small class="muted">Personal Health Workspace</small>
+                </div>
+            </div>
+            <div class="content-grid">
+                <div class="card">
+                    <div class="section-heading">
+                        <div><h2>Personal Information</h2><p>Edit your profile details.</p></div>
+                    </div>
+                    <form id="profileForm">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="fullName">Full Name</label>
+                                <input id="fullName" required>
+                            </div>
+                            <div class="field">
+                                <label for="email">Email Address</label>
+                                <input id="email" type="email" required readonly>
+                            </div>
+                            <div class="field">
+                                <label for="phone">Phone Number</label>
+                                <input id="phone" type="tel" placeholder="Phone number">
+                            </div>
+                            <div class="field">
+                                <label for="gender">Gender</label>
+                                <select id="gender">
+                                    <option value="">Prefer not to say</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="dob">Date of Birth</label>
+                                <input id="dob" type="date">
+                            </div>
+                            <div class="field">
+                                <label for="bloodGroup">Blood Group</label>
+                                <select id="bloodGroup">
+                                    <option value="">Not specified</option>
+                                    <option>A+</option><option>A-</option>
+                                    <option>B+</option><option>B-</option>
+                                    <option>AB+</option><option>AB-</option>
+                                    <option>O+</option><option>O-</option>
+                                </select>
+                            </div>
+                            <div class="field full-width">
+                                <label for="address">Address</label>
+                                <input id="address" placeholder="Your address">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="reset" class="cancel-button">Reset</button>
+                            <button type="submit" class="primary-button">Save Profile →</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="right-column">
+                    <div class="card">
+                        <h2>Body Measurements</h2>
+                        <p class="muted">From your latest wellness data.</p>
+                        <div class="measurement"><span>Height</span><strong id="profileHeight">–</strong></div>
+                        <div class="measurement"><span>Weight</span><strong id="profileWeight">–</strong></div>
+                        <div class="measurement"><span>BMI estimate</span><strong id="profileBMI">–</strong></div>
+                        <a class="secondary-button spaced" href="/wellness" style="text-decoration:none;text-align:center">Edit Measurements →</a>
+                    </div>
+                    <div class="card">
+                        <h2>Preferences</h2>
+                        <div class="preference-row"><span>Email Notifications</span><input type="checkbox" id="emailNotifications" checked></div>
+                        <div class="preference-row"><span>Health Reminders</span><input type="checkbox" id="healthReminders" checked></div>
+                        <div class="preference-row"><span>Weekly Summary</span><input type="checkbox" id="weeklySummary"></div>
+                        <div class="field spaced">
+                            <label for="language">Language</label>
+                            <select id="language"><option>English</option><option>Hindi</option><option>Hinglish</option></select>
+                        </div>
+                    </div>
+                    <div class="privacy-card">
+                        <h3>♧ Your Privacy Matters</h3>
+                        <p>Profile details are stored with your account. Educational content is not medical advice.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <span>© 2026 Sano AI</span>
+            <span>Not medical advice</span>
+        </footer>
+    </main>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

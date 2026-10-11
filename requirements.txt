@@ -1,0 +1,8 @@
+# SANO Nimbus deploy dependencies (pinned, verified 2026-10-11)
+fastapi==0.143.0
+uvicorn[standard]==0.54.0
+python-multipart==0.0.32
+python-dotenv==1.2.4
+pdfplumber==0.11.10
+Pillow==12.3.0
+google-genai==2.29.0

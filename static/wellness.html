@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#effaf6">
+  <title>Wellness & Activity | Sano AI</title>
+  <link rel="stylesheet" href="/static/wellness.css">
+  <script src="/static/wellness.js" defer></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/overview">
+        <span class="brand-logo" aria-hidden="true">♥️</span>
+        <span><strong>Sano AI</strong><small>Your Personal Health Copilot</small></span>
+      </a>
+      <nav class="navigation" aria-label="Main navigation">
+        <a class="nav-item" href="/overview"><span>⌂</span> Overview</a>
+        <a class="nav-item" href="/records"><span>▤</span> Medical Records</a>
+        <a class="nav-item" href="/"><span>♧</span> Medications</a>
+        <a class="nav-item active" href="/wellness" aria-current="page"><span>♡</span> Wellness & Activity</a>
+        <a class="nav-item" href="/appointments">▦ Appointments</a>
+        <a class="nav-item" href="/copilot"><span>✣</span> AI Copilot</a>
+        <a class="nav-item" href="/profile"><span>♙</span> Profile</a>
+      </nav>
+      <div class="sidebar-help">
+        <span class="help-icon">?</span>
+        <div><strong>Need help?</strong><small>Talk to our AI assistant</small></div>
+        <a href="/copilot" aria-label="Open AI Copilot">→</a>
+      </div>
+      <div class="sidebar-footer"><span class="online-dot"></span>Small steps, healthier habits.</div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menuButton" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+        <label class="global-search">
+          <span>⌕</span>
+          <input id="globalSearch" type="search" placeholder="Search wellness, activity, or goals..." aria-label="Search wellness">
+          <kbd>⌘ K</kbd>
+        </label>
+        <div class="topbar-actions">
+          <button class="icon-button" type="button" aria-label="Notifications" title="Notifications">♧</button>
+          <button class="avatar" id="profileButton" type="button" aria-label="User account">U</button>
+          <div class="profile-menu" id="profileMenu" hidden>
+            <strong id="profileName">Your account</strong>
+            <small id="profileEmail"></small>
+            <button type="button" id="logoutButton">Log out</button>
+          </div>
+        </div>
+      </header>
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow"><span class="online-dot"></span> YOUR WELLNESS SPACE</div>
+          <h1>Wellness & Activity</h1>
+          <p>Build healthy habits, notice your patterns and celebrate your progress.</p>
+        </div>
+        <div class="date-chip"><span>◷</span><span id="todayDate">Today</span></div>
+      </section>
+      <section class="welcome-banner">
+        <div class="welcome-copy">
+          <span class="banner-tag">YOUR DAILY CHECK-IN</span>
+          <h2>Every small step counts. <span>🌿</span></h2>
+          <p>Focus on consistency, listen to your body, and make progress at your own pace.</p>
+        </div>
+        <div class="banner-art" aria-hidden="true">
+          <div class="art-circle">
+            <svg viewBox="0 0 140 140" role="img" aria-label="">
+              <circle cx="70" cy="70" r="58" fill="#D9F1E3"/>
+              <circle cx="70" cy="70" r="43" fill="#EAF8F0"/>
+              <path d="M70 96V54" stroke="#08704B" stroke-width="5" stroke-linecap="round"/>
+              <path d="M70 73C43 74 37 55 40 41C60 41 72 54 70 73Z" fill="#3A9A6D"/>
+              <path d="M70 84C71 60 91 48 105 52C104 72 91 86 70 84Z" fill="#08704B"/>
+              <path d="M70 73L49 49M70 83L96 60" stroke="#EAF8F0" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </section>
+      <section class="section-heading">
+        <div><h2>Your daily snapshot</h2><p>A quick look at the wellness metrics available to you.</p></div>
+        <span class="data-label"><span class="online-dot"></span> Dashboard</span>
+      </section>
+      <section class="metrics-grid">
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-icon steps-icon">⌁</div><span class="metric-tag">MOVEMENT</span></div>
+          <p class="metric-label">Steps today</p>
+          <div class="metric-value"><strong id="stepsValue">–</strong><span>steps</span></div>
+          <div class="progress-track"><span id="stepsProgress"></span></div>
+          <div class="metric-bottom"><span id="stepsProgressText">Loading…</span><span>Goal: <b id="stepsGoalLabel">8,000</b></span></div>
+          <button class="text-action" type="button" data-open="steps">Update steps →</button>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-icon sleep-icon">☾</div><span class="metric-tag">REST</span></div>
+          <p class="metric-label">Sleep last night</p>
+          <div class="metric-value"><strong id="sleepValue">–</strong><span>hours</span></div>
+          <div class="progress-track"><span id="sleepProgress"></span></div>
+          <div class="metric-bottom"><span id="sleepProgressText">Loading…</span><span>Guide: <b>8–10 hrs*</b></span></div>
+          <button class="text-action" type="button" data-open="sleep">Log sleep →</button>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-icon water-icon">♧</div><span class="metric-tag">HYDRATION</span></div>
+          <p class="metric-label">Water today</p>
+          <div class="metric-value"><strong id="waterValue">–</strong><span>litres</span></div>
+          <div class="progress-track"><span id="waterProgress"></span></div>
+          <div class="metric-bottom"><span id="waterProgressText">Loading…</span><span>Goal: <b id="waterGoalLabel">2.0 L</b></span></div>
+          <button class="text-action" type="button" data-open="water">Log water →</button>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><div class="metric-icon activity-icon">◷</div><span class="metric-tag">ACTIVITY</span></div>
+          <p class="metric-label">Active minutes</p>
+          <div class="metric-value"><strong id="activeValue">–</strong><span>minutes</span></div>
+          <div class="progress-track"><span id="activeProgress"></span></div>
+          <div class="metric-bottom"><span id="activeProgressText">Loading…</span><span>Goal: <b>30 min</b></span></div>
+          <button class="text-action" type="button" data-open="activity">Log activity →</button>
+        </article>
+      </section>
+      <section class="content-grid">
+        <article class="panel activity-panel">
+          <div class="panel-heading">
+            <div><h2>Activity overview</h2><p>Your recent activity from recorded data.</p></div>
+            <select id="chartMetric" aria-label="Choose chart metric">
+              <option value="steps">Steps</option>
+              <option value="active">Active minutes</option>
+              <option value="water">Water intake</option>
+            </select>
+          </div>
+          <div class="chart-legend">
+            <span><i class="legend-dot"></i><span id="chartLegendLabel">Daily steps</span></span>
+            <span class="sample-note" id="chartNote">Live data</span>
+          </div>
+          <div class="chart" id="activityChart" role="img" aria-label="Weekly activity chart"></div>
+          <div class="chart-footer"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+        </article>
+        <article class="panel goals-panel">
+          <div class="panel-heading">
+            <div><h2>Daily goals</h2><p>Personal targets you can adjust.</p></div>
+            <span class="goal-badge" id="goalsComplete">0/4</span>
+          </div>
+          <div class="goal-list">
+            <div class="goal-row">
+              <div class="goal-symbol steps-icon">⌁</div>
+              <div class="goal-content">
+                <div class="goal-title"><strong>Movement</strong><span id="goalStepsText">–</span></div>
+                <div class="progress-track"><span id="goalStepsBar"></span></div>
+              </div>
+            </div>
+            <div class="goal-row">
+              <div class="goal-symbol sleep-icon">☾</div>
+              <div class="goal-content">
+                <div class="goal-title"><strong>Sleep</strong><span id="goalSleepText">–</span></div>
+                <div class="progress-track"><span id="goalSleepBar"></span></div>
+              </div>
+            </div>
+            <div class="goal-row">
+              <div class="goal-symbol water-icon">♧</div>
+              <div class="goal-content">
+                <div class="goal-title"><strong>Hydration</strong><span id="goalWaterText">–</span></div>
+                <div class="progress-track"><span id="goalWaterBar"></span></div>
+              </div>
+            </div>
+            <div class="goal-row">
+              <div class="goal-symbol activity-icon">◷</div>
+              <div class="goal-content">
+                <div class="goal-title"><strong>Active time</strong><span id="goalActiveText">–</span></div>
+                <div class="progress-track"><span id="goalActiveBar"></span></div>
+              </div>
+            </div>
+          </div>
+          <button class="secondary-button full-button" id="editGoalsButton" type="button">⚙ Adjust daily goals</button>
+        </article>
+      </section>
+      <section class="content-grid lower-grid">
+        <article class="panel log-panel">
+          <div class="panel-heading">
+            <div><h2>Today's activity log</h2><p>Entries saved in this browser.</p></div>
+            <button class="secondary-button" id="addActivityButton" type="button">＋ Add entry</button>
+          </div>
+          <div id="activityLog" class="activity-log"></div>
+          <div id="logEmpty" class="log-empty">
+            <div class="empty-icon">◷</div>
+            <h3>No activity logged yet</h3>
+            <p>Add your activity, steps, sleep or water intake to begin.</p>
+          </div>
+        </article>
+        <article class="panel tips-panel">
+          <div class="panel-heading"><div><h2>Healthy habit reminders</h2><p>Gentle ideas for your day.</p></div></div>
+          <div class="tip-item"><span class="tip-icon green">♧</span><div><strong>Take movement breaks</strong><p>Try a short walk or stretch between long periods of sitting.</p></div></div>
+          <div class="tip-item"><span class="tip-icon blue">☾</span><div><strong>Keep a steady sleep routine</strong><p>Consistent bedtimes can support rest and concentration.</p></div></div>
+          <div class="tip-item"><span class="tip-icon orange">♢</span><div><strong>Drink water regularly</strong><p>Adjust your intake to your thirst, activity and climate.</p></div></div>
+          <p class="wellness-disclaimer">Wellness tracking is informational, not a diagnosis. Goals should suit your needs and advice from your healthcare professional.</p>
+        </article>
+      </section>
+      <footer class="page-footer">©️ 2026 Sano AI · Your health, your journey.</footer>
+    </main>
+  </div>
+  <div class="overlay" id="overlay" hidden></div>
+  <section class="modal" id="entryModal" role="dialog" aria-modal="true" aria-labelledby="entryTitle" hidden>
+    <div class="modal-heading">
+      <div><span class="eyebrow">WELLNESS TRACKER</span><h2 id="entryTitle">Add an entry</h2><p>Enter a value you want to track.</p></div>
+      <button class="icon-button" id="closeEntry" type="button" aria-label="Close">×</button>
+    </div>
+    <div id="entryMessage" class="form-message" role="status" hidden></div>
+    <form id="entryForm">
+      <label class="form-field"><span>Entry type</span>
+        <select id="entryType">
+          <option value="steps">Steps</option>
+          <option value="sleep">Sleep (hours)</option>
+          <option value="water">Water (litres)</option>
+          <option value="active">Active minutes</option>
+        </select>
+      </label>
+      <label class="form-field"><span id="entryValueLabel">Steps today</span>
+        <input id="entryValue" type="number" min="0" max="100000" step="1" required>
+      </label>
+      <label class="form-field"><span>Optional note</span>
+        <input id="entryNote" type="text" maxlength="120" placeholder="e.g. Evening walk">
+      </label>
+      <div class="modal-actions">
+        <button class="secondary-button" id="cancelEntry" type="button">Cancel</button>
+        <button class="primary-button" id="saveEntry" type="submit">Save entry →</button>
+      </div>
+    </form>
+  </section>
+  <section class="modal" id="goalsModal" role="dialog" aria-modal="true" aria-labelledby="goalsTitle" hidden>
+    <div class="modal-heading">
+      <div><span class="eyebrow">PERSONAL TARGETS</span><h2 id="goalsTitle">Adjust daily goals</h2><p>Choose targets that are appropriate for you.</p></div>
+      <button class="icon-button" id="closeGoals" type="button" aria-label="Close">×</button>
+    </div>
+    <div id="goalsMessage" class="form-message" role="status" hidden></div>
+    <form id="goalsForm">
+      <label class="form-field"><span>Steps goal</span><input id="goalStepsInput" type="number" min="100" max="100000" step="100" required></label>
+      <label class="form-field"><span>Sleep goal (hours)</span><input id="goalSleepInput" type="number" min="4" max="16" step="0.5" required></label>
+      <label class="form-field"><span>Water goal (litres)</span><input id="goalWaterInput" type="number" min="0.25" max="10" step="0.25" required></label>
+      <label class="form-field"><span>Active minutes goal</span><input id="goalActiveInput" type="number" min="5" max="600" step="5" required></label>
+      <div class="modal-actions">
+        <button class="secondary-button" id="cancelGoals" type="button">Cancel</button>
+        <button class="primary-button" type="submit">Save goals →</button>
+      </div>
+    </form>
+  </section>
+</body>
+</html>

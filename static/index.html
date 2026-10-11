@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sano AI - Medications</title>
+    <link rel="stylesheet" href="/static/index.css">
+    <script src="/static/index.js" defer></script>
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">♥️</div>
+            <div>
+                <h2>Sano AI</h2>
+                <p>Your Personal Health Copilot</p>
+            </div>
+        </div>
+        <nav class="navigation">
+            <a href="/overview" class="nav-item">⌂ <span>Overview</span></a>
+            <a href="/records" class="nav-item">▤ <span>Medical Records</span></a>
+            <a href="/" class="nav-item active">💊 <span>Medications</span></a>
+            <a href="/wellness" class="nav-item">♡ <span>Wellness</span></a>
+            <a href="/appointments" class="nav-item">▦ <span>Appointments</span></a>
+            <a href="/copilot" class="nav-item">♧ <span>AI Copilot</span></a>
+            <a href="/profile" class="nav-item">♙ <span>Profile</span></a>
+        </nav>
+    </aside>
+    <!-- Main Content -->
+    <main class="main">
+        <header class="header">
+            <div>
+                <h1>Medications</h1>
+                <p>Keep track of your prescriptions and never miss a dose.</p>
+            </div>
+            <button class="add-btn" id="openModal">+ Add Medication</button>
+        </header>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="current">Current (<span id="currentCount">–</span>)</button>
+            <button class="tab" data-tab="past">Past (<span id="pastCount">–</span>)</button>
+            <button class="tab" data-tab="reminders">Reminders</button>
+        </div>
+        <!-- Current Medications (populated from GET /api/medications) -->
+        <section class="medication-list" id="currentSection">
+            <div class="empty-state"><h3>Loading medications…</h3></div>
+        </section>
+        <!-- Past Medications (populated from GET /api/medications?status=past) -->
+        <section class="medication-list hidden" id="pastSection">
+            <div class="empty-state"><h3>Loading past medications…</h3></div>
+        </section>
+        <!-- Reminders -->
+        <section class="medication-list hidden" id="remindersSection">
+            <div class="empty-state" id="remindersEmpty">
+                <h3>Medication Reminders</h3>
+                <p>Your medication schedule will appear here.</p>
+                <p class="small-note">Times shown are for reference only.</p>
+            </div>
+        </section>
+        <!-- Adherence -->
+        <section class="adherence" id="adherenceSection">
+            <div class="adherence-header">
+                <h2>Medication Adherence</h2>
+                <select id="period">
+                    <option value="30">Last 30 days</option>
+                    <option value="7">Last 7 days</option>
+                </select>
+            </div>
+            <div class="adherence-content">
+                <div class="progress-circle" id="progressCircle"><span id="percentage">–</span></div>
+                <div class="legend">
+                    <div class="legend-item"><span class="dot"></span><span id="takenLabel">Taken (–)</span></div>
+                    <div class="legend-item"><span class="dot missed"></span><span id="missedLabel">Missed (–)</span></div>
+                    <div class="legend-item"><span class="dot success"></span><span>From your adherence record</span></div>
+                </div>
+            </div>
+        </section>
+        <footer>Sano AI · Not medical advice — consult your doctor</footer>
+    </main>
+</div>
+<!-- Add Medication Modal -->
+<div class="modal hidden" id="medicationModal">
+    <div class="modal-box">
+        <h2>Add Medication</h2>
+        <form id="medicationForm">
+            <label for="medName">Medication name</label>
+            <input id="medName" type="text" placeholder="Enter medication name" required>
+            <label for="medDose">Dosage and schedule</label>
+            <input id="medDose" type="text" placeholder="As written on prescription" required>
+            <label for="medTime">Reminder time</label>
+            <input id="medTime" type="time" required>
+            <div class="modal-actions">
+                <button type="button" class="cancel-btn" id="closeModal">Cancel</button>
+                <button type="submit" class="save-btn">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+/* Sano AI Login - matches medications theme (#087849 green) */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f2f7f4;color:#26372e}
+.auth-layout{display:flex;min-height:100vh}
+.brand-panel{flex:1;background:linear-gradient(160deg,#0a5c39,#087849 60%,#0a7a4e);color:#fff;padding:36px;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+.brand-logo{width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.brand-logo svg{width:40px;height:40px;color:#fff}
+.brand strong{display:block;font-size:18px}.brand small{font-size:11px;opacity:.8}
+.brand-content{margin-top:48px;max-width:460px}
+.eyebrow{font-size:12px;letter-spacing:1.5px;display:flex;align-items:center;gap:8px;opacity:.9}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block}
+.brand-content h1{font-size:42px;line-height:1.1;margin:16px 0}
+.brand-content h1 span{color:#b7f0d4}
+.brand-description{opacity:.9;margin-bottom:28px}
+.feature-list{display:flex;flex-direction:column;gap:16px}
+.feature{display:flex;gap:12px;background:rgba(255,255,255,.12);border-radius:14px;padding:14px}
+.feature-icon{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feature h3{font-size:15px}.feature p{font-size:13px;opacity:.85}
+.brand-footer{margin-top:auto;opacity:.8;font-size:13px}
+.decor{position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+.decor-one{width:280px;height:280px;right:-80px;top:-60px}
+.decor-two{width:200px;height:200px;right:60px;bottom:-60px}
+.form-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;background:#f2f7f4}
+.auth-card{background:#fff;border:1px solid #e3eae3;border-radius:18px;padding:30px;width:100%;max-width:440px}
+.mobile-brand{display:none;align-items:center;gap:10px;text-decoration:none;color:#145d3b;margin-bottom:18px}
+.form-heading{text-align:center;margin-bottom:16px}
+.welcome-icon{font-size:22px;color:#087849}
+.form-heading h2{font-size:24px;margin:6px 0}
+.form-heading p{color:#7b8980;font-size:14px}
+.form-tabs{display:flex;background:#e9efeb;border-radius:12px;padding:4px;margin-bottom:16px}
+.form-tabs .tab{flex:1;border:0;background:transparent;border-radius:9px;padding:10px;font-weight:700;color:#56665c}
+.form-tabs .tab.active{background:#fff;color:#087849;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.message{border-radius:10px;padding:12px;font-size:13px;margin-bottom:12px}
+.message.ok,.message.success{background:#e6f6ec;color:#0a5c39}
+.message.err,.message.error{background:#fdecea;color:#b3261e}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;margin-bottom:6px}
+.input-wrap{display:flex;align-items:center;border:1px solid #dce5df;border-radius:10px;overflow:hidden}
+.input-icon{padding:0 10px;color:#8aa093}
+.input-wrap input{flex:1;border:0;padding:12px;outline:none}
+.toggle-password{border:0;background:transparent;color:#087849;padding:0 12px;font-size:13px}
+.field-hint{color:#7b8980;font-size:12px}
+.form-options{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:8px 0 16px}
+.remember{display:flex;align-items:center;gap:8px;cursor:pointer}
+.text-button{background:none;border:0;color:#087849;font-weight:700}
+.submit-button{width:100%;background:#087849;color:#fff;border:0;border-radius:12px;padding:14px;font-weight:700;display:flex;justify-content:center;gap:8px}
+.submit-button:hover{background:#056139}
+.submit-button:disabled{opacity:.6}
+.divider{text-align:center;font-size:11px;letter-spacing:1px;color:#89968d;margin:18px 0}
+.security-note{display:flex;gap:8px;background:#eef6f1;border-radius:10px;padding:10px;font-size:13px;color:#4a5d52}
+.switch-prompt{text-align:center;font-size:13px;margin-top:14px}
+.disclaimer{font-size:11px;color:#89968d;text-align:center;margin-top:12px}
+.copyright{font-size:12px;color:#89968d;margin-top:16px}
+@media(max-width:900px){.brand-panel{display:none}.mobile-brand{display:flex}}

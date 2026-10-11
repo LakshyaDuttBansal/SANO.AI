@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sano AI - AI Health Copilot</title>
+    <link rel="stylesheet" href="/static/copilot.css">
+    <script src="/static/copilot.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">✚</div>
+                <div><h2>Sano AI</h2><p>Your Personal Health Copilot</p></div>
+                <button class="close-sidebar" id="closeSidebar" aria-label="Close sidebar">×</button>
+            </div>
+            <nav class="navigation">
+                <a href="/overview" class="nav-item"><span class="nav-icon">⌂</span><span>Overview</span></a>
+                <a href="/records" class="nav-item"><span class="nav-icon">▤</span><span>Medical Records</span></a>
+                <a href="/" class="nav-item"><span class="nav-icon">♧</span><span>Medications</span></a>
+                <a href="/wellness" class="nav-item"><span class="nav-icon">♡</span><span>Wellness</span></a>
+                <a href="/appointments" class="nav-item"><span class="nav-icon">▦</span><span>Appointments</span></a>
+                <a href="/copilot" class="nav-item active"><span class="nav-icon">✣</span><span>AI Copilot</span></a>
+                <a href="/profile" class="nav-item"><span class="nav-icon">♙</span><span>Profile</span></a>
+            </nav>
+            <div class="sidebar-footer"><div class="status-dot"></div><span>Your health journey, simplified.</span></div>
+        </aside>
+        <main class="main-content">
+            <header class="top-header">
+                <button class="menu-button" id="menuButton" aria-label="Open sidebar">☰</button>
+                <div><h1>AI Health Copilot</h1>
+                    <p>Ask questions, get clear explanations, and understand your health better.</p></div>
+                <button class="header-button" id="clearChat" title="Clear conversation">↻</button>
+            </header>
+            <section class="copilot-layout">
+                <aside class="suggestions-panel">
+                    <div class="section-heading"><h3>Quick Questions</h3><span class="sparkle">✦</span></div>
+                    <p class="suggestion-description">Start with a question or choose a suggestion.</p>
+                    <button class="suggestion-card" data-prompt="Help me understand my blood test results."><span class="suggestion-icon">▤</span><span>Explain my latest blood test results</span><span class="card-arrow">↗️</span></button>
+                    <button class="suggestion-card" data-prompt="What does low Vitamin D mean?"><span class="suggestion-icon">☀</span><span>What does low Vitamin D mean?</span><span class="card-arrow">↗️</span></button>
+                    <button class="suggestion-card" data-prompt="What should I know about possible medication interactions?"><span class="suggestion-icon">✚</span><span>Are my medications interacting?</span><span class="card-arrow">↗️</span></button>
+                    <button class="suggestion-card" data-prompt="Help me prepare questions for my next doctor's appointment."><span class="suggestion-icon">▦</span><span>Prepare for my next appointment</span><span class="card-arrow">↗️</span></button>
+                    <button class="suggestion-card" data-prompt="Give me general personalized wellness tips."><span class="suggestion-icon">♡</span><span>Give me personalized wellness tips</span><span class="card-arrow">↗️</span></button>
+                    <div class="privacy-card"><div class="privacy-icon">🔒</div>
+                        <div><h4>Your health matters</h4><p>Your information should be handled securely and responsibly.</p></div></div>
+                </aside>
+                <section class="chat-panel">
+                    <div class="chat-header">
+                        <div class="assistant-avatar">✚</div>
+                        <div class="assistant-details"><h3>Sano AI Assistant</h3>
+                            <p><span class="online-dot"></span>Health information assistant</p></div>
+                        <span class="beta-badge">BETA</span>
+                    </div>
+                    <div class="chat-messages" id="chatMessages" aria-live="polite">
+                        <div class="message assistant-message">
+                            <div class="message-avatar">✚</div>
+                            <div class="message-content"><div class="message-bubble">
+                                <p class="message-greeting">Hey there! 👋</p>
+                                <h3>How can I help you today?</h3>
+                                <p>I can help you understand medical terminology, organize your health information, and prepare questions for your healthcare provider.</p>
+                                <div class="welcome-features"><span>✓ Simple explanations</span><span>✓ Health record insights</span><span>✓ Appointment preparation</span></div>
+                            </div><span class="message-time">Your health companion</span></div>
+                        </div>
+                    </div>
+                    <div class="typing-indicator hidden" id="typingIndicator"><span></span><span></span><span></span><p>Sano AI is preparing a response...</p></div>
+                    <div class="chat-input-area">
+                        <div class="input-wrapper">
+                            <textarea id="messageInput" placeholder="Ask a follow-up question..." rows="1" aria-label="Your message"></textarea>
+                            <label class="attachment-button" title="Attach a health document">
+                                <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.txt,.csv" hidden><span>📎</span>
+                            </label>
+                        </div>
+                        <button id="sendButton" class="send-button" aria-label="Send message">➤</button>
+                    </div>
+                    <div class="attachment-name hidden" id="attachmentName"></div>
+                    <p class="disclaimer">Sano AI provides educational information, not a medical diagnosis. Always consult a qualified healthcare professional for medical decisions.</p>
+                </section>
+            </section>
+        </main>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+</body>
+</html>
